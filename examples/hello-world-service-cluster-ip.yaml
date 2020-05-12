@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world
+spec:
+  selector:
+    app: hello-world-kubernetes
+    stage: frontend
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 80
