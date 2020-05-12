@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world-kubernetes-frontend
+  labels:
+    app: hello-world-kubernetes
+    stage: frontend
+spec:
+  containers:
+    - name: frontend
+      image: docker.pkg.github.com/mm53/hello-world-kubernetes/frontend:latest
+      ports:
+        - containerPort: 8080
+      env:
+        - name: BACKEND_URL
+          valueFrom:
+            configMapKeyRef:
+              name: hello-world-config
+              key: BACKEND_URL
+      volumeMounts:
+        - name: templates
+          mountPath: /var/www/templates/additional
+
+  volumes:
+    - name: templates
+      configMap:
+        name: hello-world-greeting
+# optional, if not present all files (key-value-pairs) will be added
+        items:                  
+          - key: greeting.html
+            path: greeting.html

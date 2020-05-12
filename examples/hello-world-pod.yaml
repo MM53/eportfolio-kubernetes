@@ -7,7 +7,7 @@ metadata:
     stage: frontend
 spec:
   containers:
-  - name: nginx
+  - name: frontend
     image: docker.pkg.github.com/mm53/hello-world-kubernetes/frontend:latest
     ports:
     - containerPort: 8080
