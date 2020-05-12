@@ -1,3 +1,6 @@
 # exclude intelliJ settings
 .idea
 *.iml
+
+# exclude files with internal configuration
+*-internal
