@@ -205,7 +205,25 @@ spec:
 You can either do this by deleting and re-adding the correct deployment.yaml or by using `kubectl edit deployment hello-world-frontend`.
 
 ### 3. Now you!
-(tbd)
+
+After setting up the hello-world frontend it's your turn to add the backend (although it can't do very much :) )
+
+Note: If you need help with writing a manifest (yaml file), you could use `kubectl explain <config-field-path>`. For example `kubectl explain pod.spec.containers` will show you all fields with an description, you can use to configure a container inside a pod.
+
+Therefor you will need a second deployment which uses the image `docker.pkg.github.com/mm53/hello-world-kubernetes/backend:latest` and has at least 2 replicas. It also should have different labels, e.g. `stage: backend`
+
+You also need another ClusterIp service, there you could copy the first one and adjust the parameters to your needs.
+
+When you have done this it's time to tell our frontend to use the backend by passing in an env-variable `BACKEND_URL` containing the in cluster url to the backend service. (If you don't know how to do this: it was mentioned as example in the slides)
+
+In order to display the data requested from the backend you need to override the template `node-overview.html.tmpl` via a ConfigMap. (Tip: generate the map with kubectl)
+
+The last task is to expose the `/hello` endpoint of the backend to the world. To achieve this replace our old ingress object with a new one containing two endpoints where `/` is routed to the frontend and `/hello` to the backend. (This [example](https://github.com/MM53/eportfolio-kubernetes/blob/master/examples/hello-world-ingress.yaml) gives you an idea how to do it)
+
+
+(I know that this example setup is a bit stupid in some parts but the goal was to show basic capabilities of kubernetes. For this purpose it will be good enough) 
+
+The solutions can be found in the solutions folder :)
 
 ### 4. What's next ?
 
