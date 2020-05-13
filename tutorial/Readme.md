@@ -210,7 +210,7 @@ After setting up the hello-world frontend it's your turn to add the backend (alt
 
 Note: If you need help with writing a manifest (yaml file), you could use `kubectl explain <config-field-path>`. For example `kubectl explain pod.spec.containers` will show you all fields with an description, you can use to configure a container inside a pod.
 
-Therefor you will need a second deployment which uses the image `docker.pkg.github.com/mm53/hello-world-kubernetes/backend:latest` and has at least 2 replicas. It also should have different labels, e.g. `stage: backend`
+For the backend you will need a second deployment which uses the image `docker.pkg.github.com/mm53/hello-world-kubernetes/backend:latest` and has at least 2 replicas. It also should have different labels, e.g. `stage: backend`
 
 You also need another ClusterIp service, there you could copy the first one and adjust the parameters to your needs.
 
