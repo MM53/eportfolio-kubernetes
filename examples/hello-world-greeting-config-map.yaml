@@ -4,6 +4,6 @@ metadata:
   name: hello-world-greeting
 data:
   greeting.html: |
-  <div class=""greeting>
-    Now you will see another message ... <br/>
-  </div>
+    <div class=""greeting>
+      Now you will see another message ... <br/>
+    </div>
