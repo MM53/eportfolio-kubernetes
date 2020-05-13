@@ -49,7 +49,7 @@ You can deploy this yaml be either creating this file locally or using the examp
 
 If everything works as intended you can run `kubectl port-forward hello-world-kubernetes-frontend 8080` and open your browser at `localhost:8080`
 then you should see something similar to this: 
-![Example image]()
+![Example image](https://raw.githubusercontent.com/MM53/eportfolio-kubernetes/master/tutorial/hello-world.png)
 
 Now that deploying the pod worked you can delete it with `kubectl delete pod hello-world-kubernetes-frontend`
 
