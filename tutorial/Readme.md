@@ -49,9 +49,10 @@ You can deploy this yaml be either creating this file locally or using the examp
 
 If everything works as intended you can run `kubectl port-forward hello-world-kubernetes-frontend 8080` and open your browser at `localhost:8080`
 then you should see something similar to this: 
+
 ![Example image](https://raw.githubusercontent.com/MM53/eportfolio-kubernetes/master/tutorial/hello-world.png)
 
-Now that deploying the pod worked you can delete it with `kubectl delete pod hello-world-kubernetes-frontend`
+If you had successfully deployed this pod, you now can delete it with `kubectl delete pod hello-world-kubernetes-frontend`
 
 The next step will be creating a deployment for the hello-world pods. A deployment takes a template for one pod and some extra information and will then take care about rolling out your pods and make sure there are always enough pods available.
 
@@ -74,11 +75,11 @@ spec:
    rollingUpdate:
      maxSurge: 1
      maxUnavailable: 0
- template:                          # template to create pods 
+ template:                           # template to create pods 
    metadata:
      name: hello-world-kubernetes-frontend
      labels:
-       app: hello-world-kubernetes  # labels to match the deployment
+       app: hello-world-kubernetes   # labels to match the deployment
        stage: frontend
    spec:
      containers:
@@ -90,7 +91,7 @@ spec:
 
 To apply the deployment run `kubectl apply -f https://raw.githubusercontent.com/MM53/eportfolio-kubernetes/master/examples/hello-world-deployment.yaml`
 
-You now should see 3 new pods when running `kubectl get pods`
+You should now see 3 new pods when running `kubectl get pods`
 
 ```
 NAME                                    READY   STATUS    RESTARTS   AGE
@@ -120,11 +121,11 @@ spec:
 
 Install the service with: `kubectl apply -f https://github.com/MM53/eportfolio-kubernetes/raw/master/examples/hello-world-service-node-port.yaml`
 
-Now you already can access your application from every device in the same network by using the IP of the node and the port you will see under `NodePort`, when running `kubectl describe service hello-world`.
+Now you can already access your application from every device within the same network by using the IP of the node and the port you will see under `NodePort`, when running `kubectl describe service hello-world`.
 
 But there is another better way to achieve this if your application only needs HTTP or HTTPS traffic. In this case you could use an ingress. This is some type of "proxy" where you could configure different paths or hostnames to be routed to different services.
 
-As we only have one endpoint at this time it will be enough to configure a default backend as followed:  
+As we only have one endpoint at this time, it will be enough to configure a default backend as followed:  
 
 ```yaml
 apiVersion: networking.k8s.io/v1beta1
@@ -137,12 +138,15 @@ spec:
     servicePort: 80            # port specified for the service
 ``` 
 
-To set it up first delete the old service and replace it by a clusterIp service. Then apply the new manifests:
+To set it up, first delete the old service and replace it by a ClusterIp service. Then apply the new manifests:
+
 `kubectl delete service hello-world`
+
 `kubectl apply -f https://github.com/MM53/eportfolio-kubernetes/raw/master/examples/hello-world-service-cluster-ip.yaml`
+
 `kubectl apply -f https://github.com/MM53/eportfolio-kubernetes/raw/master/examples/hello-world-ingress-simple.yaml`
 
-Now you have fully deployed your first application into a kubernetes cluster.
+Now you have completely deployed your first application into a kubernetes cluster.
 
 As a next step we can add some configuration to it using ConfigMaps. This is a way to store information or even files inside your cluster in a key-value format.
 
@@ -193,10 +197,10 @@ spec:
         image: docker.pkg.github.com/mm53/hello-world-kubernetes/frontend:latest
         ports:
         - containerPort: 8080
-        volumeMounts:
+        volumeMounts:                                     # mount the volume in your container to the specified path
         - name: templates
           mountPath: /var/www/templates/additional
-      volumes:
+      volumes:                                            # define a new volume based on the ConfigMap
       - name: templates
         configMap:
           name: hello-world-greeting
@@ -206,7 +210,7 @@ You can either do this by deleting and re-adding the correct deployment.yaml or 
 
 ### 3. Now you!
 
-After setting up the hello-world frontend it's your turn to add the backend (although it can't do very much :) )
+After setting up the hello-world frontend it's your turn to add the backend (although it can't do very much 😅 )
 
 Note: If you need help with writing a manifest (yaml file), you could use `kubectl explain <config-field-path>`. For example `kubectl explain pod.spec.containers` will show you all fields with an description, you can use to configure a container inside a pod.
 
@@ -214,21 +218,21 @@ For the backend you will need a second deployment which uses the image `docker.p
 
 You also need another ClusterIp service, there you could copy the first one and adjust the parameters to your needs.
 
-When you have done this it's time to tell our frontend to use the backend by passing in an env-variable `BACKEND_URL` containing the in cluster url to the backend service. (If you don't know how to do this: it was mentioned as example in the slides)
+When you have done this it's time to tell our frontend to use the backend by passing in an env-variable `BACKEND_URL` containing the in-cluster url to the backend service. (If you don't know how to do this: it was mentioned as example in the slides)
 
-In order to display the data requested from the backend you need to override the template `node-overview.html.tmpl` via a ConfigMap. (Tip: generate the map with kubectl)
+In order to display the data requested from the backend you need to override the [template](https://github.com/MM53/eportfolio-kubernetes/blob/master/tutorial/node-overview.html.tmpl) `node-overview.html.tmpl` via a ConfigMap. (Tip: generate the map with kubectl)
 
 The last task is to expose the `/hello` endpoint of the backend to the world. To achieve this replace our old ingress object with a new one containing two endpoints where `/` is routed to the frontend and `/hello` to the backend. (This [example](https://github.com/MM53/eportfolio-kubernetes/blob/master/examples/hello-world-ingress.yaml) gives you an idea how to do it)
 
 
 (I know that this example setup is a bit stupid in some parts but the goal was to show basic capabilities of kubernetes. For this purpose it will be good enough) 
 
-The solutions can be found in the solutions folder :)
+The solutions can be found in the solutions folder 😉
 
 ### 4. What's next ?
 
 Hopefully you could follow my explanations in this tutorial and are now ready to experiment with kubernetes on your own.  
 
-Probably the best next step will be to containerize your own application e.g. by using docker and start deploying it with kubernetes. Surely you will experience some problems. But in my opinion debugging those problems is a very good way to become more familiar with the whole topic.
+As a next step containerizing your own application e.g. by using docker and start deploying it with kubernetes will probably the best. Surely you will experience some problems. But in my opinion debugging those problems is a very good way to become more familiar with the whole topic.
 
 If it was too confusing for you, you might have a look at the official [tutorials](https://kubernetes.io/docs/tutorials/kubernetes-basics/). They will cover some different aspects. 
