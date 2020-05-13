@@ -227,4 +227,8 @@ The solutions can be found in the solutions folder :)
 
 ### 4. What's next ?
 
+Hopefully you could follow my explanations in this tutorial and are now ready to experiment with kubernetes on your own.  
+
 Probably the best next step will be to containerize your own application e.g. by using docker and start deploying it with kubernetes. Surely you will experience some problems. But in my opinion debugging those problems is a very good way to become more familiar with the whole topic.
+
+If it was too confusing for you, you might have a look at the official [tutorials](https://kubernetes.io/docs/tutorials/kubernetes-basics/). They will cover some different aspects. 
