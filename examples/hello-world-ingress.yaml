@@ -8,7 +8,5 @@ spec:
       paths:
       - path: /
         backend:
-          backend:
-            serviceName: hello-world
-            servicePort: 80
-  
+          serviceName: hello-world
+          servicePort: 80
